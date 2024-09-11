@@ -2,7 +2,7 @@ import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 
-class Game:
+class TicTacToeAI:
     def __init__(self):
         # Initialize the 3x3 board, represented as a list of lists
         self.board = [[' ' for _ in range(3)] for _ in range(3)]
@@ -10,7 +10,8 @@ class Game:
     def reset(self):
         # Reset the board to empty
         self.board = [[' ' for _ in range(3)] for _ in range(3)]
-    
+        self.frame_iteration = 0
+
     def play_step(self, action : list, symbol) -> tuple:
         """
         Take an action and update the game state.
@@ -28,15 +29,9 @@ class Game:
         return 0, False, 0  # No reward for continuing
     
     def getIndeces(self, action):
-        """
-        Get the row and column of the action.
-        """
         return action // 3, action % 3
     
     def isValidMove(self, row, column):
-        """
-        Check if the move is valid.
-        """
         if self.board[row][column] == ' ':
             return True
         return False
@@ -79,29 +74,3 @@ class Game:
             print(line[:-2])
             if x < 2:
                 print("-" * 10)
-
-def main():
-    game = Game()
-    game_over = False
-    players = ['X', 'O']
-    player = 0
-    while not game_over:
-        game.drawBoard()
-        valid = False
-        while not valid:
-            action = int(input(f"{players[player]} Enter the action: "))
-            row, column = game.getIndeces(action)
-            valid = game.isValidMove(row, column)
-        reward, game_over, score = game.play_step(action, players[player])
-        if game_over:
-            game.drawBoard()
-            print("Game Over!")
-            if game.is_draw():
-                print("It's a draw!")
-            else:
-                print("Winner: ", players[player])
-            break
-        player = (player + 1) % 2
-
-if __name__ == "__main__":
-    main()
