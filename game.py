@@ -1,6 +1,7 @@
 import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
+import numpy as np
 
 class TicTacToeAI:
     def __init__(self):
@@ -74,3 +75,24 @@ class TicTacToeAI:
             print(line[:-2])
             if x < 2:
                 print("-" * 10)
+
+    def get_state(self):
+        board = []
+        for row in self.board:
+            for cell in row:
+                if cell == ' ':
+                    board.append(0)
+                elif cell == 'X':
+                    board.append(1)
+                else:
+                    board.append(-1)
+        board = np.array(board)
+        return board
+    
+    def get_valid_moves(self):
+        valid_moves = []
+        for i in range(9):
+            row, col = self.getIndeces(i)
+            if self.isValidMove(row, col):
+                valid_moves.append(i)
+        return valid_moves
