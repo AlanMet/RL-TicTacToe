@@ -151,6 +151,4 @@ def main():
             print("AI making move...")
             game_over = player2.make_move(game)
     
-
-
 main()
